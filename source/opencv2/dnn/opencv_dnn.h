@@ -13,47 +13,21 @@
  | Author: HaiHao Zhou  <hihozhou@gmail.com>                            |
  +----------------------------------------------------------------------+
  */
-#include "../../php_opencv.h"
-#include "opencv_face.h"
-
-zend_class_entry *opencv_face_recognizer_ce;
-
-#ifdef HAVE_OPENCV_FACE
-
-#include <opencv2/face.hpp>
-using namespace face;
-
-#include "face/opencv_facerec.h"
-#include "face/opencv_facemarkLBF.h"
-
-/**
- * opencv_face_recognizer_methods[]
- */
-const zend_function_entry opencv_face_recognizer_methods[] = {
-        PHP_FE_END
-};
-/* }}} */
 
 
-void opencv_face_recognizer_init(int module_number){
-    zend_class_entry ce;
-    INIT_NS_CLASS_ENTRY(ce,OPENCV_FACE_NS, "FaceRecognizer", opencv_face_recognizer_methods);
-    opencv_face_recognizer_ce = zend_register_internal_class(&ce);
-}
+#ifndef PHP_OPENCV_DNN_NET_H
+#define PHP_OPENCV_DNN_NET_H
 
-void opencv_face_init(int module_number){
-    opencv_face_recognizer_init(module_number);
-    opencv_lbph_face_recognizer_init(module_number);
-    opencv_base_face_recognizer_init(module_number);
-    opencv_facemark_lbf_init(module_number);
-    opencv_base_facemark_init(module_number);
-}
+#include <opencv2/dnn.hpp>
+#include <string>
+#include <fstream>
+#include <streambuf>
 
-#else
 
-void opencv_face_init(int module_number){
-
-}
+extern void opencv_dnn_init(int module_number);
 
 #endif
-
+PHP_FUNCTION(opencv_dnn_blob_from_image);
+PHP_FUNCTION(opencv_dnn_read_net_from_torch);
+PHP_FUNCTION(opencv_dnn_read_net_from_caffe);
+PHP_FUNCTION(opencv_dnn_read_net_from_tensorflow);
